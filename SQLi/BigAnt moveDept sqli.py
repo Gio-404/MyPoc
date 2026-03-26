@@ -1,4 +1,5 @@
 import requests
+import argparse
 from requests import RequestException
 
 requests.packages.urllib3.disable_warnings()
@@ -59,7 +60,7 @@ def check(target):
             target + sqli_url, headers=headers, data=sqli_data, verify=False, timeout=30
         )
         if "~root@localhost~" in sqli_resp.text:
-            return f"{target} 存在漏洞"
+            print(f"{target} 存在漏洞")
     except RequestException as e:
         print(e)
 
