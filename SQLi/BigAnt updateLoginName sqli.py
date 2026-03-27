@@ -72,7 +72,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Check BigAnt moveDept SQLi")
+    parser = argparse.ArgumentParser(description="Check BigAnt updateLoginName SQLi")
     parser.add_argument("-u", "--url", help="Test url")
     parser.add_argument("-f", "--file", help="Test Url File")
 
